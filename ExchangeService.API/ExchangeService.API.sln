@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeService.API", "ExchangeService.API.csproj", "{964B987B-0941-43FE-8D0A-B1F3AF2EDAE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeService.API", "ExchangeService.API.csproj", "{964B987B-0941-43FE-8D0A-B1F3AF2EDAE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeService.Domain", "..\ExchangeService.Domain\ExchangeService.Domain.csproj", "{DE447CC1-CE95-47BD-A6F3-AB1022EEED77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeService.Domain", "..\ExchangeService.Domain\ExchangeService.Domain.csproj", "{DE447CC1-CE95-47BD-A6F3-AB1022EEED77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeService.Application", "..\ExchangeService.Application\ExchangeService.Application.csproj", "{3E8B90FD-FC7A-4309-BBBE-82B8EFB2F855}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeService.Application", "..\ExchangeService.Application\ExchangeService.Application.csproj", "{3E8B90FD-FC7A-4309-BBBE-82B8EFB2F855}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeService.Infrastructure", "..\ExchangeService.Infrastructure\ExchangeService.Infrastructure.csproj", "{E55214E5-C90E-4C1C-949A-56CF2D29DDFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeService.Infrastructure", "..\ExchangeService.Infrastructure\ExchangeService.Infrastructure.csproj", "{E55214E5-C90E-4C1C-949A-56CF2D29DDFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
