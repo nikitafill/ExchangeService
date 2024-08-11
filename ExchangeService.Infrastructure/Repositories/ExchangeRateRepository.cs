@@ -1,14 +1,11 @@
-﻿using ExchangeService.Domain.Models;
+﻿using ExchangeService.Domain.Interfaces.RepositoryInterfaces;
+using ExchangeService.Domain.Models;
 using ExchangeService.Infrastructure.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeService.Infrastructure.Repositories
 {
-    public class ExchangeRateRepository //: IExchangeRateRepository
+    public class ExchangeRateRepository: IExchangeRateRepository
     {
         private readonly ApplicationDbContext _context;
 

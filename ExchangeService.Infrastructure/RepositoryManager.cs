@@ -1,15 +1,11 @@
 ﻿using ExchangeService.Infrastructure.DbContexts;
 using ExchangeService.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ExchangeService.Infrastructure.Repositories;
+using ExchangeService.Domain.Interfaces;
+using ExchangeService.Domain.Interfaces.RepositoryInterfaces;
 
 namespace ExchangeService.Infrastructure
 {
-    public class RepositoryManager //: IRepositoryManager
+    public class RepositoryManager : IRepositoryManager
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -22,6 +18,8 @@ namespace ExchangeService.Infrastructure
         }
 
         public IExchangeRateRepository ActorRepository => _exchangeRateRepository.Value;
+
+        IExchangeRateRepository IRepositoryManager.ActorRepository => throw new NotImplementedException();
 
         public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
     }

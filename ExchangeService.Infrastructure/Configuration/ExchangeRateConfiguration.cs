@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ExchangeService.Infrastructure.Configuration
 {
-    internal sealed class ExchangeRateConfiguration
+    internal sealed class ExchangeRateConfiguration : IEntityTypeConfiguration<ExchangeRate>
     {
         public void Configure(EntityTypeBuilder<ExchangeRate> builder)
         {
