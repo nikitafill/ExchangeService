@@ -1,4 +1,7 @@
-
+using ExchangeService.API.Middleware;
+using ExchangeService.Infrastructure;
+using ExchangeService.Application;
+using Serilog;
 namespace ExchangeService.API
 {
     public class Program
@@ -7,16 +10,32 @@ namespace ExchangeService.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Host.UseSerilog((hostContext, services, configuration) => {
+                configuration.MinimumLevel.Information();
+                configuration.WriteTo.Console();
+                configuration.WriteTo.File("logs/app.txt", rollingInterval: RollingInterval.Day);
+            });
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            }); 
+
+
+            /*builder.Services.ConfigureIIS();
+            builder.Services.ConfigureCors();*/
+
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
+
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            //app.ConfigureExceptionHandler(app.Logger);
+
+            app.UseMiddleware<InitializeDatabaseMiddleware>(builder.Configuration);
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -24,9 +43,14 @@ namespace ExchangeService.API
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
+            app.UseCors("CorsPolicy");
+
+            app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
