@@ -1,7 +1,13 @@
 using ExchangeService.API.Middleware;
 using ExchangeService.Infrastructure;
 using ExchangeService.Application;
+using ExchangeService.API.Extensions;
 using Serilog;
+using ExchangeService.Application.Service.Interfaces;
+using ExchangeService.Application.Service;
+using ExchangeService.Domain.Interfaces.RepositoryInterfaces;
+using ExchangeService.Infrastructure.Repositories;
+
 namespace ExchangeService.API
 {
     public class Program
@@ -19,11 +25,11 @@ namespace ExchangeService.API
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            }); 
+            });
 
-
-            /*builder.Services.ConfigureIIS();
-            builder.Services.ConfigureCors();*/
+            builder.Services.AddHttpClient();
+            builder.Services.ConfigureIIS();
+            builder.Services.ConfigureCors();
 
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
