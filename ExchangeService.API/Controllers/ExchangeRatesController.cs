@@ -20,24 +20,33 @@ namespace ExchangeService.API.Controllers
         public async Task<IActionResult> ValidateExchangeRates(DateTime date)
         {
             var result = await _exchangeRateService.ValidateAndLoadExchangeRatesAsync(date);
-            if (result)
+            if (!result)
             {
-                return Ok("Data loaded or already exists.");
+                return NotFound();
             }
-
-            return BadRequest("Data loading failed.");
+            return Ok(result);
         }
 
         [HttpGet("{date}/{currencyCode}")]
         public async Task<IActionResult> GetExchangeRate(DateTime date, string currencyCode)
         {
-            var rate = await _exchangeRateService.GetExchangeRateByDateAndCodeAsync(date, currencyCode);
-            if (rate == null)
+            // Проверяем и загружаем данные для конкретной даты и валюты
+            var result = await _exchangeRateService.ValidateAndLoadExchangeRateAsync(date, currencyCode);
+            if (!result)
             {
                 return NotFound();
             }
+            return Ok(result);
+            // Получаем данные для конкретного кода валюты
+            /*var rate = await _exchangeRateService.GetExchangeRateByDateAndCodeAsync(date, currencyCode);
+            if (rate == null)
+            {
+                return NotFound("Exchange rate not found for the given date and currency code.");
+            }
 
-            return Ok(rate);
+            return Ok(result);*/
         }
+
+
     }
 }

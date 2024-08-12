@@ -3,10 +3,6 @@ using ExchangeService.Infrastructure;
 using ExchangeService.Application;
 using ExchangeService.API.Extensions;
 using Serilog;
-using ExchangeService.Application.Service.Interfaces;
-using ExchangeService.Application.Service;
-using ExchangeService.Domain.Interfaces.RepositoryInterfaces;
-using ExchangeService.Infrastructure.Repositories;
 
 namespace ExchangeService.API
 {
@@ -35,7 +31,7 @@ namespace ExchangeService.API
             builder.Services.AddInfrastructure(builder.Configuration);
 
             builder.Services.AddSwaggerGen();
-
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             var app = builder.Build();
 
             //app.ConfigureExceptionHandler(app.Logger);
@@ -56,10 +52,11 @@ namespace ExchangeService.API
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
-
+            app.UseAuthorization(); 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
             app.Run();
         }
     }
