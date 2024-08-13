@@ -9,7 +9,7 @@ namespace ExchangeService.Domain.Interfaces
 {
     public interface IRepositoryManager
     {
-        public IExchangeRateRepository ActorRepository { get; }
+        public IExchangeRateRepository ExchangeRateRepository { get; }
 
         public Task SaveAsync();
     }

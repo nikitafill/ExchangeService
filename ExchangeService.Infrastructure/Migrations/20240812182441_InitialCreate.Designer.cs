@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExchangeService.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240809151611_InitialCreate")]
+    [Migration("20240812182441_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,20 +25,32 @@ namespace ExchangeService.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ExchangeService.Domain.Models.ExchangeRate", b =>
+            modelBuilder.Entity("ExchangeService.Domain.Models.Rate", b =>
                 {
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CurrencyCode")
+                    b.Property<int>("Cur_ID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Cur_Abbreviation")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Rate")
+                    b.Property<string>("Cur_Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("Cur_OfficialRate")
+                        .IsRequired()
                         .HasColumnType("numeric");
 
-                    b.HasKey("Date", "CurrencyCode");
+                    b.Property<int>("Cur_Scale")
+                        .HasColumnType("integer");
 
-                    b.ToTable("ExchangeRate", (string)null);
+                    b.HasKey("Date", "Cur_ID");
+
+                    b.ToTable("Rate", (string)null);
                 });
 #pragma warning restore 612, 618
         }

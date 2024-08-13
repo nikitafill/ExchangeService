@@ -17,9 +17,7 @@ namespace ExchangeService.Infrastructure
             _exchangeRateRepository = new Lazy<IExchangeRateRepository>(() => new ExchangeRateRepository(_dbContext));
         }
 
-        public IExchangeRateRepository ActorRepository => _exchangeRateRepository.Value;
-
-        IExchangeRateRepository IRepositoryManager.ActorRepository => throw new NotImplementedException();
+        public IExchangeRateRepository ExchangeRateRepository => _exchangeRateRepository.Value;
 
         public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
     }

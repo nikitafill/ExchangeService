@@ -9,7 +9,7 @@ namespace ExchangeService.Infrastructure.DbContexts
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<ExchangeRate> ExchangeRates { get; set; }
+        public DbSet<Rate> Rates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

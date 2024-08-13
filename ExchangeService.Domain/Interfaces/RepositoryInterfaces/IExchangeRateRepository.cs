@@ -9,9 +9,10 @@ namespace ExchangeService.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IExchangeRateRepository
     {
-        Task<IEnumerable<ExchangeRate>> GetExchangeRatesByDateAsync(DateTime date);
-        Task<ExchangeRate> GetExchangeRateByDateAndCodeAsync(DateTime date, string currencyCode);
-        Task AddExchangeRatesAsync(IEnumerable<ExchangeRate> exchangeRates);
+        Task<IEnumerable<Rate>> GetExchangeRatesByDateAsync(DateTime date);
+        Task<Rate> GetExchangeRateByDateAndCodeAsync(DateTime date, string currencyCode);
+        Task AddExchangeRatesAsync(IEnumerable<Rate> exchangeRates);
         Task<bool> ExchangeRatesExistAsync(DateTime date);
+        Task AddExchangeRateAsync(Rate rate);
     }
 }

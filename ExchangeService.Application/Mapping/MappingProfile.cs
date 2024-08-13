@@ -8,7 +8,7 @@ namespace ExchangeService.Application.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<ExchangeRate, ExchangeRateDTO>().ReverseMap();
+            CreateMap<Rate, RateDTO>().ReverseMap();
         }
     }
 }

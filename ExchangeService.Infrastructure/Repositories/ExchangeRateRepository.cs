@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeService.Infrastructure.Repositories
 {
-    public class ExchangeRateRepository: IExchangeRateRepository
+    public class ExchangeRateRepository : IExchangeRateRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -14,28 +14,32 @@ namespace ExchangeService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<ExchangeRate>> GetExchangeRatesByDateAsync(DateTime date)
+        public async Task<IEnumerable<Rate>> GetExchangeRatesByDateAsync(DateTime date)
         {
-            return await _context.ExchangeRates
+            return await _context.Rates
                 .Where(e => e.Date == date)
                 .ToListAsync();
         }
 
-        public async Task<ExchangeRate> GetExchangeRateByDateAndCodeAsync(DateTime date, string currencyCode)
+        public async Task<Rate> GetExchangeRateByDateAndCodeAsync(DateTime date, string currencyCode)
         {
-            return await _context.ExchangeRates
-                .FirstOrDefaultAsync(e => e.Date == date && e.CurrencyCode == currencyCode);
+            return await _context.Rates
+                .FirstOrDefaultAsync(e => e.Date == date && e.Cur_Abbreviation == currencyCode);
         }
 
-        public async Task AddExchangeRatesAsync(IEnumerable<ExchangeRate> exchangeRates)
+        public async Task AddExchangeRatesAsync(IEnumerable<Rate> exchangeRates)
         {
-            await _context.ExchangeRates.AddRangeAsync(exchangeRates);
+            await _context.Rates.AddRangeAsync(exchangeRates);
             await _context.SaveChangesAsync();
         }
-
+        public async Task AddExchangeRateAsync(Rate rate)
+        {
+            await _context.Rates.AddAsync(rate);
+            await _context.SaveChangesAsync();
+        }
         public async Task<bool> ExchangeRatesExistAsync(DateTime date)
         {
-            return await _context.ExchangeRates.AnyAsync(e => e.Date == date);
+            return await _context.Rates.AnyAsync(e => e.Date == date);
         }
     }
 

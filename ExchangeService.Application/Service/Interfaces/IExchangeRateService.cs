@@ -1,15 +1,14 @@
-﻿using ExchangeService.Domain.Models;
+﻿using ExchangeService.Application.DTO;
+using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExchangeService.Application.Service.Interfaces
 {
     public interface IExchangeRateService
     {
+        Task<IEnumerable<RateDTO>> GetExchangeRatesByDateAsync(DateTime date);
+        Task<RateDTO> GetExchangeRateByDateAndCodeAsync(DateTime date, string currencyCode);
         Task<bool> ValidateAndLoadExchangeRatesAsync(DateTime date);
-        Task<ExchangeRate> GetExchangeRateAsync(DateTime date, string currencyCode);
+        Task<bool> ValidateAndLoadExchangeRateAsync(DateTime date, string currencyCode);
     }
 }

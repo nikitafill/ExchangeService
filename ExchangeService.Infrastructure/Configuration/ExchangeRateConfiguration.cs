@@ -1,25 +1,23 @@
-﻿using ExchangeService.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using ExchangeService.Domain.Models;
 
 namespace ExchangeService.Infrastructure.Configuration
 {
-    internal sealed class ExchangeRateConfiguration : IEntityTypeConfiguration<ExchangeRate>
+    public class ExchangeRateConfiguration : IEntityTypeConfiguration<Rate>
     {
-        public void Configure(EntityTypeBuilder<ExchangeRate> builder)
+        public void Configure(EntityTypeBuilder<Rate> builder)
         {
-            builder.ToTable(nameof(ExchangeRate));
+            builder.ToTable(nameof(Rate));
 
-            builder.HasKey(e => new { e.Date, e.CurrencyCode });
+            builder.HasKey(e => new { e.Date, e.Cur_ID });
+
             builder.Property(e => e.Date).IsRequired();
-            builder.Property(e => e.Rate).IsRequired();
-            builder.Property(e => e.CurrencyCode).IsRequired();
+            builder.Property(e => e.Cur_ID).IsRequired();
+            builder.Property(e => e.Cur_Abbreviation).IsRequired();
+            builder.Property(e => e.Cur_Scale).IsRequired();
+            builder.Property(e => e.Cur_Name).IsRequired();
+            builder.Property(e => e.Cur_OfficialRate).IsRequired();
         }
     }
 }
