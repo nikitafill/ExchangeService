@@ -20,13 +20,13 @@ namespace ExchangeService.Application.Service
 
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientService _httpClientService;
 
-        public ExchangeRateService(IRepositoryManager repositoryManager, IMapper mapper, HttpClient httpClient)
+        public ExchangeRateService(IRepositoryManager repositoryManager, IMapper mapper, IHttpClientService httpClientService)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
-            _httpClient = httpClient;
+            _httpClientService = httpClientService;
         }
 
         public async Task<IEnumerable<RateDTO>> GetExchangeRatesByDateAsync(DateTime date)
@@ -94,7 +94,7 @@ namespace ExchangeService.Application.Service
             string formattedDate = date.ToString("yyyy-MM-dd");
             string url = $"https://www.nbrb.by/api/exrates/rates?ondate={formattedDate}&periodicity=0";
 
-            var response = await _httpClient.GetAsync(url);
+            var response =  await _httpClientService.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
@@ -111,7 +111,7 @@ namespace ExchangeService.Application.Service
             string formattedDate = date.ToString("yyyy-MM-dd");
             string url = $"https://www.nbrb.by/api/exrates/rates/{currencyCode}?ondate={formattedDate}&parammode=2";
 
-            var response = await _httpClient.GetAsync(url);
+            var response = await _httpClientService.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {

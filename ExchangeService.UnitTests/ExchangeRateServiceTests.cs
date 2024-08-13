@@ -2,6 +2,7 @@
 using AutoMapper;
 using ExchangeService.Application.DTO;
 using ExchangeService.Application.Service;
+using ExchangeService.Application.Service.Interfaces;
 using ExchangeService.Domain.Interfaces;
 using ExchangeService.Domain.Interfaces.RepositoryInterfaces;
 using ExchangeService.Domain.Models;
@@ -16,7 +17,7 @@ namespace ExchangeService.Tests.Services
         private readonly Mock<IRepositoryManager> _repositoryManagerMock;
         private readonly Mock<IExchangeRateRepository> _exchangeRateRepositoryMock;
         private readonly IMapper _mapper;
-        private readonly Mock<HttpClient> _httpClientMock;
+        private readonly Mock<IHttpClientService> _httpClientServiceMock;
 
         public ExchangeRateServiceTests()
         {
@@ -29,8 +30,8 @@ namespace ExchangeService.Tests.Services
             });
             _mapper = config.CreateMapper();
 
-            _httpClientMock = new Mock<HttpClient>();
-            _service = new ExchangeRateService(_repositoryManagerMock.Object, _mapper, _httpClientMock.Object);
+            _httpClientServiceMock = new Mock<IHttpClientService>();
+            _service = new ExchangeRateService(_repositoryManagerMock.Object, _mapper, _httpClientServiceMock.Object);
         }
 
         [Fact]
@@ -52,7 +53,7 @@ namespace ExchangeService.Tests.Services
             _exchangeRateRepositoryMock.Setup(r => r.GetExchangeRateByDateAndCodeAsync(date, currencyCode)).ReturnsAsync((Rate)null);
             _exchangeRateRepositoryMock.Setup(r => r.AddExchangeRateAsync(It.IsAny<Rate>())).Returns(Task.CompletedTask);
 
-            _httpClientMock.Setup(h => h.GetAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage
+            _httpClientServiceMock.Setup(h => h.GetAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Content = new StringContent(JsonSerializer.Serialize(rate))
@@ -97,29 +98,29 @@ namespace ExchangeService.Tests.Services
             // Arrange
             var date = new DateTime(2023, 1, 10);
             var rates = new List<Rate>
-            {
-                new Rate {
-                    Cur_ID = 431,
-                    Date = date,
-                    Cur_Abbreviation = "USD",
-                    Cur_Scale = 1,
-                    Cur_Name = "Доллар США",
-                    Cur_OfficialRate = 3.1277M
-                },
-                new Rate {
-                    Cur_ID = 451,
-                    Date = date,
-                    Cur_Abbreviation = "EUR",
-                    Cur_Scale = 1,
-                    Cur_Name = "Евро",
-                     Cur_OfficialRate = 3.3877M
-                }
-            };
+        {
+            new Rate {
+                Cur_ID = 431,
+                Date = date,
+                Cur_Abbreviation = "USD",
+                Cur_Scale = 1,
+                Cur_Name = "Доллар США",
+                Cur_OfficialRate = 3.1277M
+            },
+            new Rate {
+                Cur_ID = 451,
+                Date = date,
+                Cur_Abbreviation = "EUR",
+                Cur_Scale = 1,
+                Cur_Name = "Евро",
+                 Cur_OfficialRate = 3.3877M
+            }
+        };
 
             _exchangeRateRepositoryMock.Setup(r => r.ExchangeRatesExistAsync(date)).ReturnsAsync(false);
             _exchangeRateRepositoryMock.Setup(r => r.AddExchangeRatesAsync(It.IsAny<IEnumerable<Rate>>())).Returns(Task.CompletedTask);
 
-            _httpClientMock.Setup(h => h.GetAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage
+            _httpClientServiceMock.Setup(h => h.GetAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Content = new StringContent(JsonSerializer.Serialize(rates))
@@ -132,4 +133,5 @@ namespace ExchangeService.Tests.Services
             Assert.True(result);
         }
     }
+
 }
