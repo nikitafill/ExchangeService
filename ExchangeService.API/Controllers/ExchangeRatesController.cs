@@ -46,7 +46,5 @@ namespace ExchangeService.API.Controllers
 
             return Ok(result);*/
         }
-
-
     }
 }
