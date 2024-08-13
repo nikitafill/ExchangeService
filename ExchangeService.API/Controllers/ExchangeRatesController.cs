@@ -27,7 +27,7 @@ namespace ExchangeService.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{date}/{currencyCode}")]
+        [HttpGet("{date}/{Cur_Abbreviation}")]
         public async Task<IActionResult> GetExchangeRate(DateTime date, string currencyCode)
         {
             // Проверяем и загружаем данные для конкретной даты и валюты
